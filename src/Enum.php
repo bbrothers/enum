@@ -45,11 +45,7 @@ abstract class Enum
      */
     public static function select($selection) : Enum
     {
-        $instance = new static;
-        $instance->validateSelection($selection);
-        $instance->selected = $selection;
-
-        return $instance;
+        return new static($selection);
     }
 
     /**
