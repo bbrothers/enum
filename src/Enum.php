@@ -2,6 +2,7 @@
 
 namespace Enum;
 
+use BadMethodCallException;
 use ReflectionClass;
 
 /**
@@ -159,6 +160,16 @@ abstract class Enum
     {
         $instance = new static;
         return $instance->select($instance->constants()[strtoupper($method)]);
+    }
+
+    public function __call($method, $_) : bool
+    {
+        $key = strtoupper(substr($method, 2));
+        $constants = self::constants();
+        if (array_key_exists($key, $constants)) {
+            return $this->isSelected($constants[$key]);
+        }
+        throw new BadMethodCallException(sprintf('The method "%s" is not defined.', $method));
     }
 
     /**

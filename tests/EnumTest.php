@@ -69,6 +69,16 @@ class AbstractEnumTest extends TestCase
     }
 
     /** @test */
+    public function itCanUseAMagicIsMethodToCheckIfAValueIsSelected()
+    {
+        $enum = $this->enum();
+        $foo  = $enum::FOO();
+
+        $this->assertTrue($foo->isFoo());
+        $this->assertFalse($foo->isBar());
+    }
+
+    /** @test */
     public function itChecksIfAProvidedValueIsAValidSelection()
     {
         $enum = $this->enum();
