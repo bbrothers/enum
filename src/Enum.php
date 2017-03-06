@@ -162,9 +162,17 @@ abstract class Enum
         return $instance->select($instance->constants()[strtoupper($method)]);
     }
 
+    /**
+     * Check if a given key is selected using the "isKey" syntax.
+     * @example $enum->isFoo()
+     *
+     * @param string $method
+     * @param mixed  $_
+     * @return bool
+     */
     public function __call($method, $_) : bool
     {
-        $key = strtoupper(substr($method, 2));
+        $key = $this->toSnakeCase(substr($method, 2));
         $constants = self::constants();
         if (array_key_exists($key, $constants)) {
             return $this->isSelected($constants[$key]);
@@ -200,5 +208,14 @@ abstract class Enum
         }
 
         return self::$constants[static::class];
+    }
+
+    private function toSnakeCase(string $string) : string
+    {
+        return strtoupper(preg_replace(
+            '/(?<=\d)(?=[A-Za-z])|(?<=[A-Za-z])(?=\d)|(?<=[a-z])(?=[A-Z])/',
+            '_',
+            $string
+        ));
     }
 }

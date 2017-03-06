@@ -71,11 +71,15 @@ class AbstractEnumTest extends TestCase
     /** @test */
     public function itCanUseAMagicIsMethodToCheckIfAValueIsSelected()
     {
-        $enum = $this->enum();
-        $foo  = $enum::FOO();
+        $enum = new class extends Enum
+        {
+            const FOO        = 'foo';
+            const SNAKE_CASE = 'snake_case';
+        };
+        $foo  = $enum::SNAKE_CASE();
 
-        $this->assertTrue($foo->isFoo());
-        $this->assertFalse($foo->isBar());
+        $this->assertTrue($foo->isSnakeCase());
+        $this->assertFalse($foo->isFoo());
     }
 
     /** @test */
