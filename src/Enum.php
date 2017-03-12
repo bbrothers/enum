@@ -42,7 +42,7 @@ abstract class Enum
      *
      * @param mixed $selection
      *
-     * @return Enum
+     * @return Enum|static
      */
     public static function select($selection) : Enum
     {
@@ -107,7 +107,7 @@ abstract class Enum
     /**
      * Get a list of the available values.
      *
-     * @return static[]
+     * @return Enum[]|static[]
      */
     public static function values() : array
     {
@@ -154,7 +154,7 @@ abstract class Enum
      *
      * @param string $method
      * @param null   $_
-     * @return Enum
+     * @return Enum|static
      */
     public static function __callStatic($method, $_) : Enum
     {
@@ -210,6 +210,12 @@ abstract class Enum
         return self::$constants[static::class];
     }
 
+    /**
+     * Convert a string to snake case.
+     *
+     * @param string $string
+     * @return string
+     */
     private function toSnakeCase(string $string) : string
     {
         return strtoupper(preg_replace(
